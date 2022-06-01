@@ -1,9 +1,17 @@
 <x-guest-layout>
     <x-auth-card>
+        <x-slot name="title">
+            <div class="border-inherit px-6 py-4" style="height: 72px; line-height: 38px; border-bottom-width: 1px;">
+                <p class="font-bold" style="font-weight: 700;">
+                    Reset Password
+                </p>
+            </div>
+        </x-slot>
+
         <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
+            <div class="flex justify-center">
+                <x-application-logo class="w-20 h-20 fill-current text-gray-500 "/>
+            </div>
         </x-slot>
 
         <!-- Validation Errors -->
@@ -43,6 +51,8 @@
                     {{ __('Reset Password') }}
                 </x-button>
             </div>
+            <x-slot name="other">
+            </x-slot>
         </form>
     </x-auth-card>
 </x-guest-layout>
