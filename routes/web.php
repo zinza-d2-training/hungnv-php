@@ -26,6 +26,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/', function () {
             return view('dashboard');
         })->name('user');
+        Route::get('/setting', [\App\Http\Controllers\UserController::class, 'setting'])->name('user.setting');
     });
 
     Route::group(['prefix' => 'company'], function () {
