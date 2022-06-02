@@ -27,6 +27,8 @@ Route::group(['middleware' => ['auth']], function () {
             return view('dashboard');
         })->name('user');
         Route::get('/setting', [\App\Http\Controllers\UserController::class, 'setting'])->name('user.setting');
+        Route::post('/setting', [\App\Http\Controllers\UserController::class, 'saveInfo']);
+        Route::post('/updateAvatar', [\App\Http\Controllers\UserController::class, 'updateAvatar']);
     });
 
     Route::group(['prefix' => 'company'], function () {
