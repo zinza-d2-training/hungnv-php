@@ -7,17 +7,15 @@ use Illuminate\View\Component;
 class Breadcrumb extends Component
 {
     public $array;
-    public $lastItem;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($array, $lastItem)
+    public function __construct($array)
     {
         $this->array = $array;
-        $this->lastItem = $lastItem;
     }
 
     /**

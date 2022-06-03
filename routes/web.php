@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,10 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
-
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -26,9 +23,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/', function () {
             return view('dashboard');
         })->name('user');
-        Route::get('/setting', [\App\Http\Controllers\UserController::class, 'setting'])->name('user.setting');
-        Route::post('/setting', [\App\Http\Controllers\UserController::class, 'saveInfo']);
-        Route::post('/updateAvatar', [\App\Http\Controllers\UserController::class, 'updateAvatar']);
+        Route::get('/setting', [UserController::class, 'setting'])->name('user.setting');
+        Route::post('/setting', [UserController::class, 'saveInfo'])->name('user.saveInfo');
+        Route::post('/updateAvatar', [UserController::class, 'updateAvatar'])->name('user.updateAvatar');
     });
 
     Route::group(['prefix' => 'company'], function () {

@@ -13,13 +13,11 @@
     @php
         $array = [
             'dashboard' => 'Dasboard',
-            'user' => 'User'
+            'user' => 'User',
+            'setting' => 'Setting',
             ];
-        $lastItem = "Setting";
     @endphp
-    <x-breadcrumb :array="$array" :lastItem="$lastItem">
-
-    </x-breadcrumb>
+    <x-breadcrumb :array="$array"></x-breadcrumb>
 
     <div class="w-full mx-auto">
         <div class="bg-white overflow-hidden shadow-sm">
@@ -28,17 +26,17 @@
                 <form class="flex flex-wra mb-6 image-upload relative" id="frm-avatar" enctype="multipart/form-data">
                     @csrf
                     <img
-                        src="{{ empty(Auth::user()->avatar) ? '/images/logo.png' : '/storage/uploads/'.Auth::user()->avatar }}"
+                        src="{{ empty(auth()->user()->avatar) ? '/images/logo.png' : '/storage/uploads/'.auth()->user()->avatar }}"
                         style="height: 92px;border-radius: 9999px; margin: 20px 0;">
                     <label for="avatar">
                         <img src="/images/camera.png" class="absolute" style="left: 100px; bottom: 20px"/>
                     </label>
-                    <input id="avatar" name="avatar" type="file" onchange="updateAvatar()"/>
+                    <input id="avatar" name="avatar" type="file"/>
                     @error('avatar')
-                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                    <x-toast>{{ $message }}</x-toast>
                     @enderror
                 </form>
-                <form class="w-full" action="" method="POST">
+                <form class="w-full" action="{{ route('user.saveInfo') }}" method="POST">
                     @csrf
                     <div class="flex flex-wrap mb-6 pt-1">
                         <div class="w-full md:w-1/4" style="padding-right: 10px;">
@@ -49,9 +47,9 @@
                             <input
                                 class="appearance-none block w-full text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500"
                                 id="name" name="name" type="text" placeholder="Name"
-                                value="{{ old('name') ?? Auth::user()->name }}">
+                                value="{{ old('name') ?? auth()->user()->name }}">
                             @error('name')
-                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                            <x-toast>{{ $message }}</x-toast>
                             @enderror
                         </div>
                         <div class="w-full md:w-1/4" style="padding-right: 10px;">
@@ -62,7 +60,7 @@
                             <input
                                 class="appearance-none block w-full text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight bg-gray-200 "
                                 id="email" name="email" type="text" placeholder="Email"
-                                value="{{ Auth::user()->email }}"
+                                value="{{ auth()->user()->email }}"
                                 readonly>
                         </div>
                     </div>
@@ -77,7 +75,7 @@
                                 id="old_password" name="old_password" type="password" placeholder="Old password"
                                 value="{{  old('old_password') }}">
                             @error('old_password')
-                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                            <x-toast>{{ $message }}</x-toast>
                             @enderror
                         </div>
                         <div class="w-full md:w-1/4" style="padding-right: 10px;">
@@ -90,7 +88,7 @@
                                 id="new_password" name="new_password" type="password" placeholder="Password"
                                 value="{{  old('new_password') }}">
                             @error('new_password')
-                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                            <x-toast>{{ $message }}</x-toast>
                             @enderror
                         </div>
                         <div class="w-full md:w-1/4" style="padding-right: 10px;">
@@ -103,7 +101,7 @@
                                 id="confirm_password" name="confirm_password" type="password"
                                 placeholder="Confirm password" value="{{  old('confirm_password') }}">
                             @error('confirm_password')
-                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                            <x-toast>{{ $message }}</x-toast>
                             @enderror
                         </div>
                     </div>
@@ -117,7 +115,7 @@
                                 <input datepicker type="text" id="dob" name="dob"
                                        class="appearance-none block w-full text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500"
                                        placeholder="Dob" datepicker-format="dd/mm/yyyy"
-                                       value="{{ old('dob') ?? date('d-m-Y', strtotime(Auth::user()->dob)) }}">
+                                       value="{{ old('dob') ?? date('d-m-Y', strtotime(auth()->user()->dob)) }}">
                             </div>
                         </div>
                     </div>
@@ -137,11 +135,13 @@
     @push('js')
         <script src="https://unpkg.com/flowbite@1.4.7/dist/datepicker.js"></script>
         <script>
+            document.getElementById("avatar").addEventListener('change', updateAvatar);
+
             function updateAvatar() {
                 var data = new FormData();
                 data.append('avatar', $('#avatar')[0].files[0]);
                 $.ajax({
-                    url: "/user/updateAvatar",
+                    url: '{{ route('user.updateAvatar') }}',
                     type: "POST",
                     data: data,
                     processData: false,

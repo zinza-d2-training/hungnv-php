@@ -3,12 +3,9 @@
         Dashboard
     @endsection
     @php
-        $array = [];
-        $lastItem = "Dashboard";
+        $array = ['Dashboard'];
     @endphp
-    <x-breadcrumb :array="$array" :lastItem="$lastItem">
-
-    </x-breadcrumb>
+    <x-breadcrumb :array="$array"></x-breadcrumb>
 
     {{--    <div style="margin-top: 35px;">--}}
     <div class="w-full mx-auto">
