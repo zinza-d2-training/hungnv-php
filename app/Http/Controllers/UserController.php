@@ -60,6 +60,11 @@ class UserController extends Controller
 
         $user->avatar = $filename;
         $user->save();
-        return redirect()->back()->with(['status' => 'success', 'message' => "Cập nhât dữ liệu thành công"]);
+        return response()->json([
+            'status' => 'success',
+//            'title' => trans('label.deleted'),
+            'message' => "Cập nhật ảnh đại diện thành công"
+        ]);
+//        return redirect()->back()->with(['status' => 'success', 'message' => "Cập nhât dữ liệu thành công"]);
     }
 }

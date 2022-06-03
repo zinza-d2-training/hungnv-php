@@ -27,11 +27,16 @@
                 <span style="font-size: 17px; font-weight: bold;">Account info</span>
                 <form class="flex flex-wra mb-6 image-upload relative" id="frm-avatar" enctype="multipart/form-data">
                     @csrf
-                    <img src="{{ empty('/storage/uploads/'.Auth::user()->avatar) ? '/storage/uploads/'.Auth::user()->avatar : '/images/logo.png' }}" style="height: 92px;border-radius: 9999px; margin: 20px 0;">
+                    <img
+                        src="{{ empty(Auth::user()->avatar) ? '/images/logo.png' : '/storage/uploads/'.Auth::user()->avatar }}"
+                        style="height: 92px;border-radius: 9999px; margin: 20px 0;">
                     <label for="avatar">
                         <img src="/images/camera.png" class="absolute" style="left: 100px; bottom: 20px"/>
                     </label>
                     <input id="avatar" name="avatar" type="file" onchange="updateAvatar()"/>
+                    @error('avatar')
+                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                    @enderror
                 </form>
                 <form class="w-full" action="" method="POST">
                     @csrf
@@ -133,17 +138,22 @@
         <script src="https://unpkg.com/flowbite@1.4.7/dist/datepicker.js"></script>
         <script>
             function updateAvatar() {
-                // var frm_avatar = new FormData($('frm-avatar')[0]);
-                data = new FormData();
-                data.append( 'avatar', $( '#avatar' )[0].files[0] );
+                var data = new FormData();
+                data.append('avatar', $('#avatar')[0].files[0]);
                 $.ajax({
                     url: "/user/updateAvatar",
                     type: "POST",
                     data: data,
                     processData: false,
                     contentType: false,
+                    dataType: "json",
                     success: function (result) {
-                        $("#div1").html(result);
+                        $('#frm-avatar').load('/user/setting #frm-avatar');
+                        $('#avt').load('/user/setting #avt');
+                        toastr.success(result.message);
+                    },
+                    error: function (error) {
+                        toastr.error(error.responseJSON.message);
                     }
                 });
             }
