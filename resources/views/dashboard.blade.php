@@ -3,9 +3,9 @@
         Dashboard
     @endsection
     @php
-        $array = ['Dashboard'];
+        $breadcrumbs = ['Dashboard'];
     @endphp
-    <x-breadcrumb :array="$array"></x-breadcrumb>
+    <x-breadcrumb :breadcrumbs="$breadcrumbs"></x-breadcrumb>
 
     {{--    <div style="margin-top: 35px;">--}}
     <div class="w-full mx-auto">

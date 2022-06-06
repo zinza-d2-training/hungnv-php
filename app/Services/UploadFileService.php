@@ -2,18 +2,18 @@
 
 namespace App\Services;
 
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class UploadFileService implements UploadFileServiceInterface
 {
-    function uploadFile($data)
+    public function uploadFile(UploadedFile $file)
     {
-        $uploadedFile = $data;
-        $filename = time().$uploadedFile->getClientOriginalName();
+        $filename = time() . $file->getClientOriginalName();
         Storage::disk('public')->putFileAs(
             'uploads/',
-            $uploadedFile,
+            $file,
             $filename
         );
         return $filename;

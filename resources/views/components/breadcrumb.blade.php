@@ -1,8 +1,8 @@
 <nav class="flex px-6" aria-label="Breadcrumb" style="height: 35px; ">
     <ol class="inline-flex items-center space-x-1 md:space-x-1">
-        @if(is_array($array) || count($array))
-            @foreach ($array as $href => $item)
-                @if($item == end($array))
+        @if(is_array($breadcrumbs) || count($breadcrumbs))
+            @foreach ($breadcrumbs as $href => $item)
+                @if($item == end($breadcrumbs))
                     <li aria-current="page">
                         <div class="flex items-center">
                     <span class="text-sm font-medium text-blue-600 dark:text-blue-400"

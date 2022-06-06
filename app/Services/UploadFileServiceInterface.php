@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use Illuminate\Http\UploadedFile;
+
 interface UploadFileServiceInterface
 {
-    public function uploadFile($data);
+    public function uploadFile(UploadedFile $file);
 }

@@ -11,13 +11,13 @@
 
     @endpush
     @php
-        $array = [
+        $breadcrumbs = [
             'dashboard' => 'Dasboard',
             'user' => 'User',
             'setting' => 'Setting',
             ];
     @endphp
-    <x-breadcrumb :array="$array"></x-breadcrumb>
+    <x-breadcrumb :breadcrumbs="$breadcrumbs"></x-breadcrumb>
 
     <div class="w-full mx-auto">
         <div class="bg-white overflow-hidden shadow-sm">
