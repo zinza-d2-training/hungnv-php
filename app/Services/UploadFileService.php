@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\Storage;
 
 class UploadFileService implements UploadFileServiceInterface
 {
-    public function uploadFile(UploadedFile $file)
+    public function uploadFile(UploadedFile $file, $path)
     {
         $filename = time() . $file->getClientOriginalName();
         Storage::disk('public')->putFileAs(
-            'uploads/',
+            'uploads/'.$path.'/',
             $file,
             $filename
         );

@@ -1,6 +1,6 @@
 <x-app-layout>
     @section('title')
-        Setting
+        Update company
     @endsection
     @push('css')
         <style>
@@ -8,13 +8,12 @@
                 display: none;
             }
         </style>
-
     @endpush
     @php
         $breadcrumbs = [
             'dashboard' => 'Dasboard',
-            'user' => 'User',
-            'setting' => 'Setting',
+            'companies' => 'Company',
+            'update' => 'Update',
             ];
     @endphp
     <x-breadcrumb :breadcrumbs="$breadcrumbs"></x-breadcrumb>
@@ -22,22 +21,19 @@
     <div class="w-full mx-auto">
         <div class="bg-white overflow-hidden shadow-sm">
             <div class="px-6 py-2 bg-white border-b border-gray-200">
-                <span style="font-size: 17px; font-weight: bold;">Account info</span>
-                <form class="flex flex-wra mb-6 image-upload relative" id="frm-avatar" enctype="multipart/form-data">
+                <div class="relative mt-1 mb-5">
+                    <span style="font-size: 17px; font-weight: bold;">Update company</span>
+                    <a href="{{ route('companies.index') }}">
+                        <button type="submit"
+                                class="absolute right-0 px-6 py-1 border border-transparent rounded-md text-white content-center hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
+                                style="background-color: #3CA3DD; height: 36px;">
+                            {{ __('Back') }}
+                        </button>
+                    </a>
+                </div>
+                <form class="w-full" action="{{ route('companies.update', $company->id) }}" enctype="multipart/form-data" method="POST" >
                     @csrf
-                    <img
-                        src="{{ empty(auth()->user()->avatar) ? '/images/logo.png' : '/storage/uploads/user/'.auth()->user()->avatar }}"
-                        style="height: 92px;border-radius: 9999px; margin: 20px 0;">
-                    <label for="avatar">
-                        <img src="/images/camera.png" class="absolute" style="left: 100px; bottom: 20px"/>
-                    </label>
-                    <input id="avatar" name="avatar" type="file"/>
-                    @error('avatar')
-                    <x-toast>{{ $message }}</x-toast>
-                    @enderror
-                </form>
-                <form class="w-full" action="{{ route('user.saveInfo') }}" method="POST">
-                    @csrf
+                    @method('PUT')
                     <div class="flex flex-wrap mb-6 pt-1">
                         <div class="w-full md:w-1/4" style="padding-right: 10px;">
                             <label class="block tracking-wide text-gray-700 font-bold"
@@ -47,60 +43,51 @@
                             <input
                                 class="appearance-none block w-full text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500"
                                 id="name" name="name" type="text" placeholder="Name"
-                                value="{{ old('name') ?? auth()->user()->name }}">
+                                value="{{ old('name') ?? $company->name }}">
                             @error('name')
                             <x-toast>{{ $message }}</x-toast>
                             @enderror
                         </div>
                         <div class="w-full md:w-1/4" style="padding-right: 10px;">
                             <label class="block tracking-wide text-gray-700 font-bold"
-                                   for="email" style="height: 32px; font-size: 16px; font-weight: 400;">
-                                Email
+                                   for="name" style="height: 32px; font-size: 16px; font-weight: 400;">
+                                Avatar
                             </label>
                             <input
-                                class="appearance-none block w-full text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight bg-gray-200 "
-                                id="email" name="email" type="text" placeholder="Email"
-                                value="{{ auth()->user()->email }}"
-                                readonly>
+                                class="appearance-none block w-full text-gray-700 border border-gray-300 rounded leading-tight focus:outline-none focus:border-gray-500"
+                                id="avatar" name="avatar" type="file" placeholder="Avatar" style="padding: 9px 16px;">
+                            @error('avatar')
+                            <x-toast>{{ $message }}</x-toast>
+                            @enderror
+                        </div>
+                        <div class="w-full md:w-1/4" style="padding-right: 10px;">
+                            <img src="/storage/uploads/company/{{ $company->avatar }}" id="img-preview" width="90" alt="" class="{{ empty($company->avatar) ? 'hidden' : '' }}">
                         </div>
                     </div>
                     <div class="flex flex-wrap mb-6">
                         <div class="w-full md:w-1/4" style="padding-right: 10px;">
                             <label class="block tracking-wide text-gray-700 font-bold"
                                    for="old_password" style="height: 32px; font-size: 16px; font-weight: 400;">
-                                Old password
+                                Address
                             </label>
                             <input
                                 class="appearance-none block w-full text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500"
-                                id="old_password" name="old_password" type="password" placeholder="Old password"
-                                value="{{  old('old_password') }}">
-                            @error('old_password')
+                                id="address" name="address" type="text" placeholder="Address"
+                                value="{{  old('address') ?? $company->address }}">
+                            @error('address')
                             <x-toast>{{ $message }}</x-toast>
                             @enderror
                         </div>
                         <div class="w-full md:w-1/4" style="padding-right: 10px;">
                             <label class="block tracking-wide text-gray-700 font-bold"
-                                   for="new_password" style="height: 32px; font-size: 16px; font-weight: 400;">
-                                Password
+                                   for="max_users" style="height: 32px; font-size: 16px; font-weight: 400;">
+                                Max users
                             </label>
                             <input
                                 class="appearance-none block w-full text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500"
-                                id="new_password" name="new_password" type="password" placeholder="Password"
-                                value="{{  old('new_password') }}">
-                            @error('new_password')
-                            <x-toast>{{ $message }}</x-toast>
-                            @enderror
-                        </div>
-                        <div class="w-full md:w-1/4" style="padding-right: 10px;">
-                            <label class="block tracking-wide text-gray-700 font-bold"
-                                   for="confirm_password" style="height: 32px; font-size: 16px; font-weight: 400;">
-                                Confirm password
-                            </label>
-                            <input
-                                class="appearance-none block w-full text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500"
-                                id="confirm_password" name="confirm_password" type="password"
-                                placeholder="Confirm password" value="{{  old('confirm_password') }}">
-                            @error('confirm_password')
+                                id="max_users" name="max_users" type="text" placeholder="Max users"
+                                value="{{  old('max_users') ?? $company->max_users }}">
+                            @error('max_users')
                             <x-toast>{{ $message }}</x-toast>
                             @enderror
                         </div>
@@ -109,14 +96,28 @@
                         <div class="w-full md:w-1/4" style="padding-right: 10px;">
                             <div class="relative">
                                 <label class="block tracking-wide text-gray-700 font-bold"
-                                       for="dob" style="height: 32px; font-size: 16px; font-weight: 400;">
-                                    Dob
+                                       for="expired_at" style="height: 32px; font-size: 16px; font-weight: 400;">
+                                    Expired at
                                 </label>
-                                <input datepicker type="text" id="dob" name="dob"
+                                <input datepicker type="text" id="expired_at" name="expired_at"
                                        class="appearance-none block w-full text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500"
-                                       placeholder="Dob" datepicker-format="dd/mm/yyyy"
-                                       value="{{ old('dob') ?? date('d-m-Y', strtotime(auth()->user()->dob)) }}">
+                                       placeholder="Expired at" datepicker-format="dd/mm/yyyy"
+                                       value="{{ old('expired_at') ?? date('d-m-Y', strtotime($company->expired_at)) }}">
+                                @error('expired_at')
+                                <x-toast>{{ $message }}</x-toast>
+                                @enderror
                             </div>
+                        </div>
+                        <div class="w-full md:w-1/4" style="padding-right: 10px;">
+                            <label class="block tracking-wide text-gray-700 font-bold"
+                                   for="status" style="height: 32px; font-size: 16px; font-weight: 400;">
+                                Status
+                            </label>
+                            <select id="status" name="status"
+                                    class="appearance-none block w-full text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500">
+                                <option value="1" {{ $company->status == 1 ? 'selected' : '' }}>Active</option>
+                                <option value="0" {{ $company->status == 0 ? 'selected' : '' }}>Inactive</option>
+                            </select>
                         </div>
                     </div>
                     <div class="flex flex-wrap mb-2">

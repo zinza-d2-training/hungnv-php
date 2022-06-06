@@ -11,7 +11,7 @@
                     <x-nav-link :href="route('user')" :active="request()->routeIs('user')">
                         {{ __('User') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('company')" :active="request()->routeIs('company')">
+                    <x-nav-link :href="route('companies.index')" :active="request()->routeIs('companies.index')">
                         {{ __('Company') }}
                     </x-nav-link>
                     <x-nav-link :href="route('topic')" :active="request()->routeIs('topic')">
@@ -40,20 +40,18 @@
                         <button
                             class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
                             <div id="avt">
-                                <img src="{{ empty(auth()->user()->avatar) ? '/images/logo.png' : '/storage/uploads/'.auth()->user()->avatar }}" alt="avatar.png" width="36px" style="border-radius: 18px;">
+                                <img
+                                    src="{{ empty(auth()->user()->avatar) ? '/images/logo.png' : '/storage/uploads/user/'.auth()->user()->avatar }}"
+                                    alt="avatar.png" width="36px" style="border-radius: 18px;">
                             </div>
                         </button>
                     </x-slot>
 
                     <x-slot name="content">
                         <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-
-                            <x-dropdown-link :href="route('user.setting')" >
-                                {{ __('Setting') }}
-                            </x-dropdown-link>
-                        </form>
+                        <x-dropdown-link :href="route('user.setting')">
+                            {{ __('Setting') }}
+                        </x-dropdown-link>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
@@ -92,7 +90,7 @@
             <x-responsive-nav-link :href="route('user')" :active="request()->routeIs('user')">
                 {{ __('User') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('company')" :active="request()->routeIs('company')">
+            <x-responsive-nav-link :href="route('companies.index')" :active="request()->routeIs('companies.index')">
                 {{ __('Company') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('topic')" :active="request()->routeIs('topic')">

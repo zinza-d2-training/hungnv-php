@@ -6,5 +6,5 @@ use Illuminate\Http\UploadedFile;
 
 interface UploadFileServiceInterface
 {
-    public function uploadFile(UploadedFile $file);
+    public function uploadFile(UploadedFile $file, string $path);
 }

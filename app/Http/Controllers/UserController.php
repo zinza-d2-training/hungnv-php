@@ -32,7 +32,9 @@ class UserController extends Controller
         $data = $request->validated();
         $this->userService->checkOldPassword($request);
         $user = auth()->user();
-        $data['password'] = bcrypt($data['password']);
+        if (!empty($data['new_password'])) {
+            $data['password'] = bcrypt($data['new_password']);
+        }
         $data['dob'] = Carbon::createFromFormat('d/m/Y', $request->input('dob'))->format('Y-m-d');
         $user->update($data);
         return redirect()->back()->with(['status' => 'success', 'message' => "Cập nhât dữ liệu thành công"]);
@@ -42,7 +44,7 @@ class UserController extends Controller
     {
         $data = $request->validated();
         $user = auth()->user();
-        $filename = $this->uploadFileService->uploadFile($data['avatar']);
+        $filename = $this->uploadFileService->uploadFile($data['avatar'], 'user');
         $user->update(['avatar' => $filename]);
         return response()->json([
             'status' => 'success',

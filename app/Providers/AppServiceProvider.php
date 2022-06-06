@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Company;
+use App\Observers\CompanyObserver;
 use App\Services\UploadFileService;
 use App\Services\UploadFileServiceInterface;
 use App\Services\UserService;
@@ -28,5 +30,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Company::observe(CompanyObserver::class);
     }
 }
