@@ -14,6 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->string('avatar')->after('email')->nullable();
+            $table->date('dob')->after('password')->nullable();
             $table->boolean('status')->default(1);
             $table->softDeletes();
         });
@@ -27,6 +29,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('avatar');
+            $table->dropColumn('dob');
             $table->dropColumn('status');
             $table->dropColumn('deleted_at');
         });
