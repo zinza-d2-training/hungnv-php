@@ -24,12 +24,12 @@
                         </button>
                     </a>
                 </div>
-                <form class="w-full" action="{{ route('companies.update', $company->id) }}"
+                <form class="w-full md:w-1/2" action="{{ route('companies.update', $company->id) }}"
                       enctype="multipart/form-data" method="POST">
                     @csrf
                     @method('PUT')
-                    <div class="flex flex-wrap mb-6 pt-1">
-                        <div class="w-full md:w-1/4" style="padding-right: 10px;">
+                    <div class="flex gap-5 mb-6">
+                        <div class="flex-1">
                             <label class="block tracking-wide text-gray-700 font-bold"
                                    for="name" style="height: 32px; font-size: 16px; font-weight: 400;">
                                 Name
@@ -42,25 +42,23 @@
                             <x-toast>{{ $message }}</x-toast>
                             @enderror
                         </div>
-                        <div class="w-full md:w-1/4" style="padding-right: 10px;">
+                        <div class="flex-1">
                             <label class="block tracking-wide text-gray-700 font-bold"
                                    for="name" style="height: 32px; font-size: 16px; font-weight: 400;">
                                 Avatar
                             </label>
-                            <input
-                                class="appearance-none block w-full text-gray-700 border border-gray-300 rounded leading-tight focus:outline-none focus:border-gray-500"
-                                id="avatar" name="avatar" type="file" placeholder="Avatar" style="padding: 9px 16px;">
+                            <div class="image-preview-box"></div>
+                            <div id="image-preview" class="pt-2">
+                                <img class="{{ empty($company->avatar) ? 'hidden' : '' }}" src="/storage/uploads/company/{{ $company->avatar }}" width="120px" alt="">
+                            </div>
                             @error('avatar')
                             <x-toast>{{ $message }}</x-toast>
                             @enderror
                         </div>
-                        <div class="w-full md:w-1/4" style="padding-right: 10px;">
-                            <img src="/storage/uploads/company/{{ $company->avatar }}" id="img-preview" width="90"
-                                 alt="" class="{{ empty($company->avatar) ? 'hidden' : '' }}">
-                        </div>
                     </div>
-                    <div class="flex flex-wrap mb-6">
-                        <div class="w-full md:w-1/4" style="padding-right: 10px;">
+
+                    <div class="flex gap-5 mb-6">
+                        <div class="flex-1">
                             <label class="block tracking-wide text-gray-700 font-bold"
                                    for="old_password" style="height: 32px; font-size: 16px; font-weight: 400;">
                                 Address
@@ -73,7 +71,7 @@
                             <x-toast>{{ $message }}</x-toast>
                             @enderror
                         </div>
-                        <div class="w-full md:w-1/4" style="padding-right: 10px;">
+                        <div class="flex-1">
                             <label class="block tracking-wide text-gray-700 font-bold"
                                    for="max_users" style="height: 32px; font-size: 16px; font-weight: 400;">
                                 Max users
@@ -87,43 +85,53 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="flex flex-wrap mb-2">
-                        <div class="w-full md:w-1/4" style="padding-right: 10px;">
-                            <div class="relative">
-                                <label class="block tracking-wide text-gray-700 font-bold"
-                                       for="expired_at" style="height: 32px; font-size: 16px; font-weight: 400;">
-                                    Expired at
-                                </label>
-                                <input datepicker type="text" id="expired_at" name="expired_at"
-                                       class="appearance-none block w-full text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500"
-                                       placeholder="Expired at" datepicker-format="dd/mm/yyyy"
-                                       value="{{ old('expired_at') ?? date('d-m-Y', strtotime($company->expired_at)) }}">
-                                @error('expired_at')
-                                <x-toast>{{ $message }}</x-toast>
-                                @enderror
-                            </div>
+
+                    <div class="flex gap-5 mb-6">
+                        <div class="flex-1">
+                            <label class="block tracking-wide text-gray-700 font-bold"
+                                   for="expired_at" style="height: 32px; font-size: 16px; font-weight: 400;">
+                                Expired at
+                            </label>
+                            <input datepicker type="text" id="expired_at" name="expired_at"
+                                   class="appearance-none block w-full text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500"
+                                   placeholder="Expired at" datepicker-format="dd/mm/yyyy"
+                                   value="{{ old('expired_at') ?? date('d-m-Y', strtotime($company->expired_at)) }}">
+                            @error('expired_at')
+                            <x-toast>{{ $message }}</x-toast>
+                            @enderror
                         </div>
-                        <div class="w-full md:w-1/4" style="padding-right: 10px;">
+                        <div class="flex-1">
                             <label class="block tracking-wide text-gray-700 font-bold"
                                    for="status" style="height: 32px; font-size: 16px; font-weight: 400;">
                                 Status
                             </label>
                             <select id="status" name="status"
                                     class="appearance-none block w-full text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500">
-                                <option value="1" {{ $company->status == 1 ? 'selected' : '' }}>Active</option>
-                                <option value="0" {{ $company->status == 0 ? 'selected' : '' }}>Inactive</option>
+                                <option
+                                    value="1" {{ $company->status == \App\Models\Company::ACTIVE ? 'selected' : '' }}>
+                                    Active
+                                </option>
+                                <option
+                                    value="0" {{ $company->status == \App\Models\Company::INACTIVE ? 'selected' : '' }}>
+                                    Inactive
+                                </option>
                             </select>
                         </div>
                     </div>
-                    <div class="flex flex-wrap mb-2">
-                        <div class="w-full md:w-1/4" style="padding-right: 10px;">
+
+                    <div class="flex gap-5 mb-6">
+                        <div class="flex-1">
                             <button type="submit"
                                     class="w-full items-center mt-4 px-4 py-2 border border-transparent rounded-md text-white content-center hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
                                     style="background-color: #3CA3DD; height: 40px;">
                                 {{ __('Save') }}
                             </button>
                         </div>
+                        <div class="flex-1">
+
+                        </div>
                     </div>
+
                 </form>
             </div>
         </div>
@@ -131,16 +139,12 @@
     @push('js')
         <script src="/js/datepicker.js"></script>
         <script>
-            const input = document.getElementById('avatar');
-            const image = document.getElementById('img-preview');
-
-            input.addEventListener('change', (e) => {
-                if (e.target.files.length) {
-                    const src = URL.createObjectURL(e.target.files[0]);
-                    image.classList.remove("hidden");
-                    image.src = src;
-                }
-            });
+            previewImage.init('.image-preview-box', {
+                inputClass: "appearance-none block w-full text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500",
+                inputName: 'avatar',
+                placeholder: "Avatar",
+                style: "padding: 9px 16px;",
+            })
         </script>
     @endpush
 </x-app-layout>

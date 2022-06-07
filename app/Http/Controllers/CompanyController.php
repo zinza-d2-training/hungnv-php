@@ -9,16 +9,15 @@ use Illuminate\Support\Carbon;
 
 class CompanyController extends Controller
 {
-    public UploadFileServiceInterface $uploadFileService;
+    private UploadFileServiceInterface $uploadFileService;
+
     public function __construct(UploadFileServiceInterface $uploadFileService)
     {
         $this->uploadFileService = $uploadFileService;
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
@@ -27,9 +26,7 @@ class CompanyController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -37,34 +34,22 @@ class CompanyController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CompanyRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CompanyRequest $request)
     {
-        $company = new Company();
         $data = $request->validated();
-        if(isset($data['avatar']) || !empty($data['avatar'])) {
-            $filename = $this->uploadFileService->uploadFile($data['avatar'], 'company');
+        if (isset($data['avatar']) || !empty($data['avatar'])) {
+            $folder = 'company';
+            $filename = $this->uploadFileService->uploadFile($data['avatar'], $folder);
             $data['avatar'] = $filename;
         }
-        $data['address'] = $request->input('address');
-        $data['status'] = $request->input('status');
-        $company->create($data);
-        return redirect()->route('companies.index')->with(['status' => 'success', 'message' => "Thêm mới công ty thành công"]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        Company::create($data);
+        return redirect()->route('companies.index')->with([
+            'status' => 'success',
+            'message' => "Thêm mới công ty thành công"
+        ]);
     }
 
     /**
@@ -84,15 +69,16 @@ class CompanyController extends Controller
     public function update(CompanyRequest $request, Company $company)
     {
         $data = $request->validated();
-        if(isset($data['avatar']) || !empty($data['avatar'])) {
+        if (isset($data['avatar']) || !empty($data['avatar'])) {
             $filename = $this->uploadFileService->uploadFile($data['avatar'], 'company');
             $data['avatar'] = $filename;
         }
-        $data['address'] = $request->input('address');
-        $data['expired_at'] = Carbon::createFromFormat('d/m/Y', $request->input('expired_at'))->format('Y-m-d');
-        $data['status'] = $request->input('status');
+        $data['expired_at'] = Carbon::createFromFormat('d/m/Y', $data['expired_at'])->format('Y-m-d');
         $company->update($data);
-        return redirect()->route('companies.index')->with(['status' => 'success', 'message' => "Cập nhật dữ liệu thành công"]);
+        return redirect()->route('companies.index')->with([
+            'status' => 'success',
+            'message' => "Cập nhật dữ liệu thành công"
+        ]);
     }
 
     /**

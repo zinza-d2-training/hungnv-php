@@ -9,5 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Company extends Model
 {
     use HasFactory, SoftDeletes;
+    const ACTIVE = 1;
+    const INACTIVE = 0;
     protected $guarded = [];
 }

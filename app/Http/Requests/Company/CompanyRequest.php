@@ -26,7 +26,9 @@ class CompanyRequest extends FormRequest
         $rules = [
             'name' => 'required',
             'max_users' => 'required',
-            'expired_at' => 'required'
+            'expired_at' => 'required',
+            'address' => 'nullable',
+            'status' => 'nullable',
         ];
         if (request('avatar')) {
             $rules['avatar'] = 'mimes:jpg,jpeg,png| max:5128';

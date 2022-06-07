@@ -44,7 +44,8 @@ class UserController extends Controller
     {
         $data = $request->validated();
         $user = auth()->user();
-        $filename = $this->uploadFileService->uploadFile($data['avatar'], 'user');
+        $folder = 'user';
+        $filename = $this->uploadFileService->uploadFile($data['avatar'], $folder);
         $user->update(['avatar' => $filename]);
         return response()->json([
             'status' => 'success',

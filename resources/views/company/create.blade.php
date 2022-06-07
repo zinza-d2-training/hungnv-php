@@ -24,10 +24,10 @@
                         </button>
                     </a>
                 </div>
-                <form class="w-full" action="{{ route('companies.store') }}" method="POST" enctype="multipart/form-data" style="min-height: 460px;">
+                <form class="w-full md:w-1/2" action="{{ route('companies.store') }}" method="POST" enctype="multipart/form-data" style="min-height: 460px;">
                     @csrf
-                    <div class="flex flex-wrap mb-6 pt-1">
-                        <div class="w-full md:w-1/4" style="padding-right: 10px;">
+                    <div class="flex gap-5 mb-6">
+                        <div class="flex-1">
                             <label class="block tracking-wide text-gray-700 font-bold"
                                    for="name" style="height: 32px; font-size: 16px; font-weight: 400;">
                                 Name
@@ -40,24 +40,20 @@
                             <x-toast>{{ $message }}</x-toast>
                             @enderror
                         </div>
-                        <div class="w-full md:w-1/4" style="padding-right: 10px;">
+                        <div class="flex-1">
                             <label class="block tracking-wide text-gray-700 font-bold"
                                    for="name" style="height: 32px; font-size: 16px; font-weight: 400;">
                                 Avatar
                             </label>
-                            <input
-                                class="appearance-none block w-full text-gray-700 border border-gray-300 rounded leading-tight focus:outline-none focus:border-gray-500"
-                                id="avatar" name="avatar" type="file" placeholder="Avatar" style="padding: 9px 16px;">
+                            <div class="image-preview-box"></div>
+                            <div id="image-preview" class="pt-2"></div>
                             @error('avatar')
                             <x-toast>{{ $message }}</x-toast>
                             @enderror
                         </div>
-                        <div class="w-full md:w-1/4" style="padding-right: 10px;">
-                            <img src="/images/logo.png" id="img-preview" width="90" alt="" class="hidden">
-                        </div>
                     </div>
-                    <div class="flex flex-wrap mb-6">
-                        <div class="w-full md:w-1/4" style="padding-right: 10px;">
+                    <div class="flex gap-5 mb-6">
+                        <div class="flex-1">
                             <label class="block tracking-wide text-gray-700 font-bold"
                                    for="old_password" style="height: 32px; font-size: 16px; font-weight: 400;">
                                 Address
@@ -70,7 +66,7 @@
                             <x-toast>{{ $message }}</x-toast>
                             @enderror
                         </div>
-                        <div class="w-full md:w-1/4" style="padding-right: 10px;">
+                        <div class="flex-1">
                             <label class="block tracking-wide text-gray-700 font-bold"
                                    for="max_users" style="height: 32px; font-size: 16px; font-weight: 400;">
                                 Max users
@@ -84,8 +80,8 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="flex flex-wrap mb-2">
-                        <div class="w-full md:w-1/4" style="padding-right: 10px;">
+                    <div class="flex gap-5 mb-6">
+                        <div class="flex-1">
                             <div class="relative">
                                 <label class="block tracking-wide text-gray-700 font-bold"
                                        for="dob" style="height: 32px; font-size: 16px; font-weight: 400;">
@@ -100,7 +96,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="w-full md:w-1/4" style="padding-right: 10px;">
+                        <div class="flex-1">
                             <label class="block tracking-wide text-gray-700 font-bold"
                                    for="status" style="height: 32px; font-size: 16px; font-weight: 400;">
                                 Status
@@ -112,8 +108,8 @@
                             </select>
                         </div>
                     </div>
-                    <div class="flex flex-wrap mb-2">
-                        <div class="w-full md:w-1/4" style="padding-right: 10px;">
+                    <div class="flex gap-5 mb-6">
+                        <div class="flex-1">
                             <button type="submit"
                                     class="w-full items-center mt-4 px-4 py-2 border border-transparent rounded-md text-white content-center hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
                                     style="background-color: #3CA3DD; height: 40px;">
@@ -127,17 +123,13 @@
     </div>
     @push('js')
         <script src="/js/datepicker.js"></script>
-        <script>
-            const input = document.getElementById('avatar');
-            const image = document.getElementById('img-preview');
-
-            input.addEventListener('change', (e) => {
-                if (e.target.files.length) {
-                    const src = URL.createObjectURL(e.target.files[0]);
-                    image.classList.remove("hidden");
-                    image.src = src;
-                }
-            });
-        </script>
+            <script>
+                previewImage.init('.image-preview-box', {
+                    inputClass: "appearance-none block w-full text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500",
+                    inputName: 'avatar',
+                    placeholder: "Avatar",
+                    style: "padding: 9px 16px;",
+                })
+            </script>
     @endpush
 </x-app-layout>

@@ -12,7 +12,7 @@ class UploadFileService implements UploadFileServiceInterface
     {
         $filename = time() . $file->getClientOriginalName();
         Storage::disk('public')->putFileAs(
-            'uploads/'.$path.'/',
+            'uploads/' . $path . '/',
             $file,
             $filename
         );

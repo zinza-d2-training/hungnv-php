@@ -29,7 +29,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/updateAvatar', [UserController::class, 'updateAvatar'])->name('user.updateAvatar');
     });
 
-    Route::resource('companies', CompanyController::class);
+    Route::resource('companies', CompanyController::class)->except(['show']);
 
     Route::group(['prefix' => 'topic'], function () {
         Route::get('/', function () {
