@@ -2,13 +2,6 @@
     @section('title')
         Create company
     @endsection
-    @push('css')
-        <style>
-            .image-upload > input {
-                display: none;
-            }
-        </style>
-    @endpush
     @php
         $breadcrumbs = [
             'dashboard' => 'Dasboard',

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Company\CompanyRequest;
 use App\Models\Company;
 use App\Services\UploadFileServiceInterface;
-use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
 class CompanyController extends Controller
