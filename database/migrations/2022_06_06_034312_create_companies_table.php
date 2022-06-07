@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->boolean('status')->default(1);
             $table->timestamps();
+            $table->softDeletes()->nullable();
         });
     }
 

@@ -31,7 +31,8 @@
                         </button>
                     </a>
                 </div>
-                <form class="w-full" action="{{ route('companies.update', $company->id) }}" enctype="multipart/form-data" method="POST" >
+                <form class="w-full" action="{{ route('companies.update', $company->id) }}"
+                      enctype="multipart/form-data" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="flex flex-wrap mb-6 pt-1">
@@ -61,7 +62,8 @@
                             @enderror
                         </div>
                         <div class="w-full md:w-1/4" style="padding-right: 10px;">
-                            <img src="/storage/uploads/company/{{ $company->avatar }}" id="img-preview" width="90" alt="" class="{{ empty($company->avatar) ? 'hidden' : '' }}">
+                            <img src="/storage/uploads/company/{{ $company->avatar }}" id="img-preview" width="90"
+                                 alt="" class="{{ empty($company->avatar) ? 'hidden' : '' }}">
                         </div>
                     </div>
                     <div class="flex flex-wrap mb-6">
@@ -136,28 +138,16 @@
     @push('js')
         <script src="/js/datepicker.js"></script>
         <script>
-            document.getElementById("avatar").addEventListener('change', updateAvatar);
+            const input = document.getElementById('avatar');
+            const image = document.getElementById('img-preview');
 
-            function updateAvatar() {
-                var data = new FormData();
-                data.append('avatar', $('#avatar')[0].files[0]);
-                $.ajax({
-                    url: '{{ route('user.updateAvatar') }}',
-                    type: "POST",
-                    data: data,
-                    processData: false,
-                    contentType: false,
-                    dataType: "json",
-                    success: function (result) {
-                        $('#frm-avatar').load('/user/setting #frm-avatar');
-                        $('#avt').load('/user/setting #avt');
-                        toastr.success(result.message);
-                    },
-                    error: function (error) {
-                        toastr.error(error.responseJSON.message);
-                    }
-                });
-            }
+            input.addEventListener('change', (e) => {
+                if (e.target.files.length) {
+                    const src = URL.createObjectURL(e.target.files[0]);
+                    image.classList.remove("hidden");
+                    image.src = src;
+                }
+            });
         </script>
     @endpush
 </x-app-layout>

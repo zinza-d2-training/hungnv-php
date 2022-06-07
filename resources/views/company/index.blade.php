@@ -35,7 +35,7 @@
                 </div>
 
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg my-10" style="min-height: 400px;">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" >
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead
                             class="text-xs text-gray-700 uppercase bg-gray-200 border dark:bg-gray-800 dark:text-gray-400">
                         <tr>
@@ -57,8 +57,8 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            @foreach($companies as $item)
+                        @foreach($companies as $item)
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <th scope="row"
                                     class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                                     <div class="flex items-center">
@@ -108,56 +108,56 @@
                                         </x-slot>
                                     </x-dropdown>
                                 </td>
-                        </tr>
+                            </tr>
                         @endforeach
                         </tbody>
                     </table>
+                    <div class="pagination px-4 py-3">
+                        {!! $companies->links() !!}
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
     @push('js')
         <script>
-            // var deleteBtns = document.getElementsByClassName("btn-delete");
-            // for (var i = 0; i < deleteBtns.length; i++) {
-            //     deleteBtns[i].addEventListener('click', confirmDelete($(this).data('id')));
-            // }
-            // function confirmDelete(id) {
-            //     Swal.fire({
-            //         title: 'Are you sure?',
-            //         text: "You won't be able to revert this!",
-            //         type: 'warning',
-            //         showCancelButton: true,
-            //         confirmButtonColor: '#3085d6',
-            //         cancelButtonColor: '#d33',
-            //         confirmButtonText: 'Yes, delete it!',
-            //         closeOnConfirm: false,
-            //         closeOnCancel: false
-            //     }).then((isConfirm) => {
-            //         if (isConfirm.value) {
-            //             // $.post(url, {
-            //             //     item_id: itemId,
-            //             //     _token: token,
-            //             //     item_ids: itemIds,
-            //             // }, function (data) {
-            //             //     if (data.status === 'success') {
-            //             //         $("#row-id-" + itemId).slideUp();
-            //             //         if (itemIds.length > 0) {
-            //             //             $.each(itemIds, function (idx, item) {
-            //             //                 $("#row-id-" + item).slideUp();
-            //             //             });
-            //             //         }
-            //             //         Swal.fire(data.title + "!", data.message, "success");
-            //             //     } else {
-            //             //         Swal.fire(data.title + "!", data.message, data.status);
-            //             //     }
-            //             // });
-            //         } else {
-            //             Swal.fire("Cancelled", "Action has been canceled.", "error");
-            //         }
-            //     });
-            // }
+            const deleteBtns = document.querySelectorAll('.btn-delete');
+            deleteBtns.forEach(btn => {
+                btn.addEventListener('click', confirmDelete);
+            });
+
+            function confirmDelete(event) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!',
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                }).then((isConfirm) => {
+                    if (isConfirm.value) {
+                        let url = '{{ route("companies.destroy", ":id") }}';
+                        url = url.replace(':id', event.target.dataset.id);
+                        $.ajax({
+                            url: url,
+                            type: 'DELETE',
+                            success: function (data) {
+                                Swal.fire(`${data.title}!`, data.message, "success");
+                                const trElement = event.target.closest('tr');
+                                trElement.remove();
+                            },
+                            error: function (data) {
+                                Swal.fire(data.title + "!", data.message, data.status);
+                            }
+                        });
+                    } else {
+                        Swal.fire("Cancelled", "Action has been canceled.", "error");
+                    }
+                });
+            }
         </script>
     @endpush
 </x-app-layout>

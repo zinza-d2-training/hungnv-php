@@ -145,29 +145,6 @@
                     image.src = src;
                 }
             });
-
-            {{--document.getElementById("avatar").addEventListener('change', updateAvatar);--}}
-
-            {{--function updateAvatar() {--}}
-            {{--    var data = new FormData();--}}
-            {{--    data.append('avatar', $('#avatar')[0].files[0]);--}}
-            {{--    $.ajax({--}}
-            {{--        url: '{{ route('user.updateAvatar') }}',--}}
-            {{--        type: "POST",--}}
-            {{--        data: data,--}}
-            {{--        processData: false,--}}
-            {{--        contentType: false,--}}
-            {{--        dataType: "json",--}}
-            {{--        success: function (result) {--}}
-            {{--            $('#frm-avatar').load('/user/setting #frm-avatar');--}}
-            {{--            $('#avt').load('/user/setting #avt');--}}
-            {{--            toastr.success(result.message);--}}
-            {{--        },--}}
-            {{--        error: function (error) {--}}
-            {{--            toastr.error(error.responseJSON.message);--}}
-            {{--        }--}}
-            {{--    });--}}
-            {{--}--}}
         </script>
     @endpush
 </x-app-layout>

@@ -23,7 +23,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::all();
+        $companies = Company::paginate(10);
         return view('company.index', compact('companies'));
     }
 
@@ -69,10 +69,8 @@ class CompanyController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Company $company
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(Company $company)
     {
@@ -80,11 +78,9 @@ class CompanyController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param CompanyRequest $request
+     * @param Company $company
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(CompanyRequest $request, Company $company)
     {
@@ -101,13 +97,15 @@ class CompanyController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Company $company
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Company $company)
     {
-        //
+        $company->delete();
+        return response()->json([
+            'title' => 'Success',
+            'message' => "Xóa bản ghi thành công"
+        ]);
     }
 }
