@@ -47,10 +47,7 @@
                                    for="name" style="height: 32px; font-size: 16px; font-weight: 400;">
                                 Avatar
                             </label>
-                            <div class="image-preview-box"></div>
-                            <div id="image-preview" class="pt-2">
-                                <img class="{{ empty($company->avatar) ? 'hidden' : '' }}" src="/storage/uploads/company/{{ $company->avatar }}" width="120px" alt="">
-                            </div>
+                            <div class="image-preview-box" data-old-image="/storage/uploads/company/{{ $company->avatar }}"></div>
                             @error('avatar')
                             <x-toast>{{ $message }}</x-toast>
                             @enderror

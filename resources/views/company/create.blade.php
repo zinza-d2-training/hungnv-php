@@ -46,7 +46,6 @@
                                 Avatar
                             </label>
                             <div class="image-preview-box"></div>
-                            <div id="image-preview" class="pt-2"></div>
                             @error('avatar')
                             <x-toast>{{ $message }}</x-toast>
                             @enderror
