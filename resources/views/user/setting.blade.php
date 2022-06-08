@@ -26,7 +26,7 @@
                 <form class="flex flex-wra mb-6 image-upload relative" id="frm-avatar" enctype="multipart/form-data">
                     @csrf
                     <img
-                        src="{{ empty(auth()->user()->avatar) ? '/images/logo.png' : '/storage/uploads/'.auth()->user()->avatar }}"
+                        src="{{ empty(auth()->user()->avatar) ? '/images/logo.png' : '/storage/uploads/user/'.auth()->user()->avatar }}"
                         style="height: 92px;border-radius: 9999px; margin: 20px 0;">
                     <label for="avatar">
                         <img src="/images/camera.png" class="absolute" style="left: 100px; bottom: 20px"/>
@@ -133,7 +133,7 @@
         </div>
     </div>
     @push('js')
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/datepicker.js"></script>
+        <script src="/js/datepicker.js"></script>
         <script>
             document.getElementById("avatar").addEventListener('change', updateAvatar);
 

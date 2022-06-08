@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,11 +29,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/updateAvatar', [UserController::class, 'updateAvatar'])->name('user.updateAvatar');
     });
 
-    Route::group(['prefix' => 'company'], function () {
-        Route::get('/', function () {
-            return view('dashboard');
-        })->name('company');
-    });
+    Route::resource('companies', CompanyController::class)->except(['show']);
 
     Route::group(['prefix' => 'topic'], function () {
         Route::get('/', function () {
