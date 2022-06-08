@@ -47,7 +47,8 @@
                                    for="name" style="height: 32px; font-size: 16px; font-weight: 400;">
                                 Avatar
                             </label>
-                            <div class="image-preview-box" data-old-image="/storage/uploads/company/{{ $company->avatar }}"></div>
+                            <div class="image-preview-box"
+                                 data-old-image="/storage/uploads/company/{{ $company->avatar }}"></div>
                             @error('avatar')
                             <x-toast>{{ $message }}</x-toast>
                             @enderror
@@ -124,9 +125,7 @@
                                 {{ __('Save') }}
                             </button>
                         </div>
-                        <div class="flex-1">
-
-                        </div>
+                        <div class="flex-1"></div>
                     </div>
 
                 </form>
@@ -134,7 +133,7 @@
         </div>
     </div>
     @push('js')
-        <script src="/js/datepicker.js"></script>
+        <script src="{{ asset('/js/datepicker.js') }}"></script>
         <script>
             previewImage.init('.image-preview-box', {
                 inputClass: "appearance-none block w-full text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500",

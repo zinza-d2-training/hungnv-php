@@ -24,7 +24,8 @@
                         </button>
                     </a>
                 </div>
-                <form class="w-full md:w-1/2" action="{{ route('companies.store') }}" method="POST" enctype="multipart/form-data" style="min-height: 460px;">
+                <form class="w-full md:w-1/2" action="{{ route('companies.store') }}" method="POST"
+                      enctype="multipart/form-data" style="min-height: 460px;">
                     @csrf
                     <div class="flex gap-5 mb-6">
                         <div class="flex-1">
@@ -115,20 +116,21 @@
                                 {{ __('Save') }}
                             </button>
                         </div>
+                        <div class="flex-1"></div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
     @push('js')
-        <script src="/js/datepicker.js"></script>
-            <script>
-                previewImage.init('.image-preview-box', {
-                    inputClass: "appearance-none block w-full text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500",
-                    inputName: 'avatar',
-                    placeholder: "Avatar",
-                    style: "padding: 9px 16px;",
-                })
-            </script>
+        <script src="{{ asset('/js/datepicker.js') }}"></script>
+        <script>
+            previewImage.init('.image-preview-box', {
+                inputClass: "appearance-none block w-full text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500",
+                inputName: 'avatar',
+                placeholder: "Avatar",
+                style: "padding: 9px 16px;",
+            })
+        </script>
     @endpush
 </x-app-layout>

@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/css/toastr.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="/js/toastr.min.js"></script>
+    <link href="{{ asset('https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/css/toastr.min.css') }}">
+    <script src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js') }}"></script>
+    <script src="{{ asset('/js/toastr.min.js') }}"></script>
     @stack('css')
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{ asset('js/lib.js') }}" ></script>
+    <script src="{{ asset('js/lib.js') }}"></script>
 </head>
 <body class="font-sans antialiased">
 <div class="min-h-screen bg-gray-100 relative" style="min-height: 850px">
@@ -28,15 +28,15 @@
                 {
                     "closeButton": true
                 }
-            @if(Session::get('status') == 'success')
-            toastr.success("{{ session('message') }}");
-            @elseif(Session::get('status') == 'error')
-            toastr.error("{{ session('error') }}");
-            @elseif(Session::get('status') == 'info')
-            toastr.info("{{ session('info') }}");
-            @elseif(Session::get('status') == 'warning')
-            toastr.warning("{{ session('warning') }}");
-            @endif
+                @if(Session::get('status') == 'success')
+                    toastr.success("{{ session('message') }}");
+                @elseif(Session::get('status') == 'error')
+                    toastr.error("{{ session('error') }}");
+                @elseif(Session::get('status') == 'info')
+                    toastr.info("{{ session('info') }}");
+                @elseif(Session::get('status') == 'warning')
+                    toastr.warning("{{ session('warning') }}");
+                @endif
             @endif
         </script>
     </div>

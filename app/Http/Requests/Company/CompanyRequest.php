@@ -24,10 +24,10 @@ class CompanyRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'name' => 'required',
-            'max_users' => 'required',
+            'name' => 'required|string|max:100',
+            'max_users' => 'required|numeric|min:0|max:20',
             'expired_at' => 'required',
-            'address' => 'nullable',
+            'address' => 'nullable|max:255',
             'status' => 'nullable',
         ];
         if (request('avatar')) {

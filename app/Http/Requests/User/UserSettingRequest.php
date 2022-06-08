@@ -25,7 +25,7 @@ class UserSettingRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'name' => 'required',
+            'name' => 'required|string|max:100',
             'old_password' => 'nullable',
         ];
         if (request('old_password')) {
